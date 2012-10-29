@@ -1,4 +1,4 @@
-﻿Category Beavior for Yii
+﻿Category Behavior for Yii
 ==========================
 Contains popular methods for work with plain and hierarchical categories in Yii
 
@@ -10,9 +10,10 @@ Extract to `protected/components`.
 Usage example
 -------------
 
-Attach any from this behaviors to your model:
+Attach any from this behaviors to your model. Use DCategoryBehavior for plain models and DCategoryTreeBehavior for hierarchical models.
 ~~~
-class Category extends CActiveRecord
+[php]
+class Page extends CActiveRecord
 {
     // ...
     
@@ -20,17 +21,47 @@ class Category extends CActiveRecord
     {
         return array(
             'CategoryBehavior'=>array(
-                'class'=>'DCategoryTreeBehavior',
+                'class'=>'DCategoryBehavior',
                 'titleAttribute'=>'title',
                 'aliasAttribute'=>'alias',
-                'parentAttribute'=>'parent_id',
-                'parentRelation'=>'parent',
+                'urlAttribute'=>'url',
+                'requestPathAttribute'=>'alias',
                 'defaultCriteria'=>array(
                     'order'=>'t.title ASC'
                 ),
             ),
         );
     }
+    
+    // ...
+}
+
+class Category extends CActiveRecord
+{
+    // ...
+    
+    public function behaviors()
+    {
+        return array(
+            'CategoryTreeBehavior'=>array(
+                'class'=>'DCategoryTreeBehavior',
+                'titleAttribute'=>'title',
+                'aliasAttribute'=>'alias',
+                'urlAttribute'=>'url',
+                'requestPathAttribute'=>'path',
+                'parentAttribute'=>'parent_id',
+                'parentRelation'=>'parent',
+                'defaultCriteria'=>array(
+                    'order'=>'t.position ASC, t.title ASC'
+                ),
+            ),
+        );
+    }
+    
+    public function getUrl()
+    {
+        // ...
+    }    
     
     // ...
 }
@@ -163,6 +194,8 @@ Methods:
     </tr>
 </table>
 
+Using for `dropDownList()`:
+
 ~~~
 [php]
 <div class="row">
@@ -174,6 +207,15 @@ Methods:
     ); ?><br />
     <?php echo $form->error($model, 'category_id'); ?>
 </div>
+~~~
+
+Using for CMenu widget:
+
+~~~
+[php]
+<?php $this->widget('zii.widgets.CMenu', array(
+    'items'=>Category::model()->getMenuArray(0, 1000))
+); ?>
 ~~~
 
 
