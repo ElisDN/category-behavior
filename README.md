@@ -78,28 +78,39 @@ Parameters:
 
 <table>
     <tr>
+        <th>Attribute</th>
+        <td>Description</td>
+        <td>Default</td>
+    </tr>
+    <tr>
         <td>titleAttribute</td>
         <td>Model attribute used for showing title.</td>
+        <td>name</td>
     </tr>
     <tr>
         <td>aliasAttribute</td>
         <td>Model attribute, which defined alias.</td>
+        <td>alias</td>
     </tr>
     <tr>
         <td>urlAttribute</td>
         <td>Model property, which contains url. Optionally your model can have 'url' attribute or `getUrl()` method, which construct correct url for using our `getMenuArray()`.</td>
+        <td>url</td>
     </tr>
     <tr>
         <td>linkActiveAttribute</td>
         <td>Model property, which return true for active menu item. Optionally declare own `getLinkActive()` method in your model.</td>
+        <td>linkActive</td>
     </tr>
     <tr>
         <td>requestPathAttribute</td>
         <td>Set this request property if you can use default `getLinkActive()` method.</td>
+        <td>path</td>
     </tr>
     <tr>
         <td>defaultCriteria</td>
         <td>Default criteria for all queries.</td>
+        <td>array()</td>
     </tr>
 </table>
 
@@ -140,12 +151,19 @@ Parameters:
 
 <table>
     <tr>
+        <th>Attribute</th>
+        <td>Description</td>
+        <td>Default</td>
+    </tr>
+    <tr>
         <td>parentAttribute</td>
         <td>Parent attribute.</td>
+        <td>parent_id</td>
     </tr>
     <tr>
         <td>parentRelation</td>
         <td>Parent BELONGS_TO relation.</td>
+        <td>parent</td>
     </tr>
 </table>
 
