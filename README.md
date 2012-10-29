@@ -79,8 +79,8 @@ Parameters:
 <table>
     <tr>
         <th>Attribute</th>
-        <td>Description</td>
-        <td>Default</td>
+        <th>Description</th>
+        <th>Default</th>
     </tr>
     <tr>
         <td>titleAttribute</td>
@@ -152,8 +152,8 @@ Parameters:
 <table>
     <tr>
         <th>Attribute</th>
-        <td>Description</td>
-        <td>Default</td>
+        <th>Description</th>
+        <th>Default</th>
     </tr>
     <tr>
         <td>parentAttribute</td>
