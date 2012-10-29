@@ -20,7 +20,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
     /**
      * @var string model attribute used for showing title
      */
-    public $titleAttribute = 'name';
+    public $titleAttribute = 'title';
     /**
      * @var string model attribute, which defined alias
      */

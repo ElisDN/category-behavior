@@ -85,7 +85,7 @@ Parameters:
     <tr>
         <td>titleAttribute</td>
         <td>Model attribute used for showing title.</td>
-        <td>name</td>
+        <td>title</td>
     </tr>
     <tr>
         <td>aliasAttribute</td>
