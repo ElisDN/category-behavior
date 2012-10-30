@@ -84,7 +84,7 @@ Parameters:
     </tr>
     <tr>
         <td style="white-space: nowrap;">titleAttribute</td>
-        <td>Model attribute used for showing title.</td>
+        <td>Model attribute, which used for showing title.</td>
         <td>title</td>
     </tr>
     <tr>
@@ -99,12 +99,12 @@ Parameters:
     </tr>
     <tr>
         <td style="white-space: nowrap;">linkActiveAttribute</td>
-        <td>Model property, which return true for active menu item. Optionally declare own `getLinkActive()` method in your model.</td>
+        <td>Model property, which return true for active menu item. Optionally declare own public `getLinkActive()` method in your model.</td>
         <td>linkActive</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">requestPathAttribute</td>
-        <td>Set this request property if you can use default `getLinkActive()` method.</td>
+        <td>Set this request property if you can use default `getLinkActive()` method from this Behavior for `getMenuArray()`.</td>
         <td>path</td>
     </tr>
     <tr>
@@ -123,7 +123,7 @@ Methods:
     </tr>
     <tr>
         <td style="white-space: nowrap;">getArray()</td>
-        <td>Return primary keys of all items.</td>
+        <td>Returns primary keys of all items.</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getAssocList()</td>
@@ -234,12 +234,18 @@ Using for `dropDownList()`:
 </div>
 ~~~
 
-Using for CMenu widget:
+Using for CMenu widget (with caching):
 
 ~~~
 [php]
+<h2>All categories:</h2>
 <?php $this->widget('zii.widgets.CMenu', array(
-    'items'=>Category::model()->getMenuArray(0, 1000))
+    'items'=>Category::model()->cache(3600)->getMenuArray(0, 1000))
+); ?>
+
+<h2>Subcategories of <?php echo $category->title; ?>:</h2>
+<?php $this->widget('zii.widgets.CMenu', array(
+    'items'=>$category->cache(3600)->getMenuArray())
 ); ?>
 ~~~
 
