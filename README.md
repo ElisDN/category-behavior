@@ -1,4 +1,4 @@
-﻿Category Behavior for Yii
+﻿Category ActiveRecord Behavior for Yii
 ==========================
 Contains popular methods for work with plain and hierarchical categories in Yii
 
@@ -78,37 +78,37 @@ Parameters:
 
 <table>
     <tr>
-        <th>Attribute</th>
+        <th style="white-space: nowrap;">Attribute</th>
         <th>Description</th>
         <th>Default</th>
     </tr>
     <tr>
-        <td>titleAttribute</td>
+        <td style="white-space: nowrap;">titleAttribute</td>
         <td>Model attribute used for showing title.</td>
         <td>title</td>
     </tr>
     <tr>
-        <td>aliasAttribute</td>
+        <td style="white-space: nowrap;">aliasAttribute</td>
         <td>Model attribute, which defined alias.</td>
         <td>alias</td>
     </tr>
     <tr>
-        <td>urlAttribute</td>
+        <td style="white-space: nowrap;">urlAttribute</td>
         <td>Model property, which contains url. Optionally your model can have 'url' attribute or `getUrl()` method, which construct correct url for using our `getMenuArray()`.</td>
         <td>url</td>
     </tr>
     <tr>
-        <td>linkActiveAttribute</td>
+        <td style="white-space: nowrap;">linkActiveAttribute</td>
         <td>Model property, which return true for active menu item. Optionally declare own `getLinkActive()` method in your model.</td>
         <td>linkActive</td>
     </tr>
     <tr>
-        <td>requestPathAttribute</td>
+        <td style="white-space: nowrap;">requestPathAttribute</td>
         <td>Set this request property if you can use default `getLinkActive()` method.</td>
         <td>path</td>
     </tr>
     <tr>
-        <td>defaultCriteria</td>
+        <td style="white-space: nowrap;">defaultCriteria</td>
         <td>Default criteria for all queries.</td>
         <td>array()</td>
     </tr>
@@ -118,27 +118,27 @@ Methods:
 
 <table>
     <tr>
-        <td>findByAlias()</td>
+        <td style="white-space: nowrap;">findByAlias()</td>
         <td>Finds model by alias attribute.</td>
     </tr>
     <tr>
-        <td>getArray()</td>
+        <td style="white-space: nowrap;">getArray()</td>
         <td>Return primary keys of all items.</td>
     </tr>
     <tr>
-        <td>getAssocList()</td>
+        <td style="white-space: nowrap;">getAssocList()</td>
         <td>Returns associated array ($id=>$title, $id=>$title, ...).</td>
     </tr>
     <tr>
-        <td>getAliasList()</td>
+        <td style="white-space: nowrap;">getAliasList()</td>
         <td>Returns associated array ($alias=>$title, $alias=>$title, ...).</td>
     </tr>
     <tr>
-        <td>getMenuArray()</td>
+        <td style="white-space: nowrap;">getMenuArray()</td>
         <td>Returns items for zii.widgets.CMenu widget.</td>
     </tr>
     <tr>
-        <td>getLinkActive()</td>
+        <td style="white-space: nowrap;">getLinkActive()</td>
         <td>Optional redeclare this method in your model for use `getMenuArray()` or define in `requestPathAttribute` your $_GET attribute for url matching. Returns true if current request url matches with category alias.</td>
     </tr>
 </table>
@@ -151,17 +151,17 @@ Parameters:
 
 <table>
     <tr>
-        <th>Attribute</th>
+        <th style="white-space: nowrap;">Attribute</th>
         <th>Description</th>
         <th>Default</th>
     </tr>
     <tr>
-        <td>parentAttribute</td>
+        <td style="white-space: nowrap;">parentAttribute</td>
         <td>Parent attribute.</td>
         <td>parent_id</td>
     </tr>
     <tr>
-        <td>parentRelation</td>
+        <td style="white-space: nowrap;">parentRelation</td>
         <td>Parent BELONGS_TO relation.</td>
         <td>parent</td>
     </tr>
@@ -171,43 +171,43 @@ Methods:
 
 <table>
     <tr>
-        <td>findByPath($path)</td>
+        <td style="white-space: nowrap;">findByPath($path)</td>
         <td>Finds model by path.</td>
     </tr>
     <tr>
-        <td>isChildOf($parent)<sup>*</sup></td>
+        <td style="white-space: nowrap;">isChildOf($parent)<sup>*</sup></td>
         <td>Checks for current model is child of parent.</td>
     </tr>
     <tr>
-        <td>getChildsArray($parent=0)<sup>*</sup></td>
+        <td style="white-space: nowrap;">getChildsArray($parent=0)<sup>*</sup></td>
         <td>Returns array of primary keys of children items.</td>
     </tr>
     <tr>
-        <td>getAssocList($parent=0)<sup>*</sup></td>
+        <td style="white-space: nowrap;">getAssocList($parent=0)<sup>*</sup></td>
         <td>Returns associated array ($id=>$fullTitle, $id=>$fullTitle, ...).</td>
     </tr>
     <tr>
-        <td>getAliasList($parent=0)<sup>*</sup></td>
+        <td style="white-space: nowrap;">getAliasList($parent=0)<sup>*</sup></td>
         <td>Returns associated array ($alias=>$fullTitle, $alias=>$fullTitle, ...).</td>
     </tr>
     <tr>
-        <td>getTabList($parent=0)<sup>*</sup></td>
+        <td style="white-space: nowrap;">getTabList($parent=0)<sup>*</sup></td>
         <td>Returns tabulated array ($id=>$title, $id=>$title, ...).</td>
     </tr>
     <tr>
-        <td>getMenuArray($parent=0, $sub=0)<sup>*</sup></td>
+        <td style="white-space: nowrap;">getMenuArray($parent=0, $sub=0)<sup>*</sup></td>
         <td>Returns items for zii.widgets.CMenu widget.</td>
     </tr>
     <tr>
-        <td>getPath($separator='/')</td>
+        <td style="white-space: nowrap;">getPath($separator='/')</td>
         <td>Constructs full path for current model.</td>
     </tr>
     <tr>
-        <td>getBreadcrumbs($lastLink=false)</td>
+        <td style="white-space: nowrap;">getBreadcrumbs($lastLink=false)</td>
         <td>Constructs breadcrumbs for zii.widgets.CBreadcrumbs widget. Use `getBreadcrumbs(true)` if you can have link in last element.</td>
     </tr>
     <tr>
-        <td>getFullTitle($separator=' - ')</td>
+        <td style="white-space: nowrap;">getFullTitle($separator=' - ')</td>
         <td>Constructs full title for current model.</td>
     </tr>
 </table>
