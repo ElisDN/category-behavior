@@ -13,6 +13,26 @@ Usage example
 Attach any from this behaviors to your model. Use DCategoryBehavior for plain models and DCategoryTreeBehavior for hierarchical models.
 ~~~
 [php]
+class Tag extends CActiveRecord
+{
+    // ...
+    
+    public function behaviors()
+    {
+        return array(
+            'CategoryBehavior'=>array(
+                'class'=>'DCategoryBehavior',
+                'titleAttribute'=>'title',
+                'defaultCriteria'=>array(
+                    'order'=>'t.title ASC'
+                ),
+            ),
+        );
+    }
+    
+    // ...
+}
+
 class Page extends CActiveRecord
 {
     // ...
@@ -78,7 +98,7 @@ Parameters:
 
 <table>
     <tr>
-        <th style="white-space: nowrap;">Attribute</th>
+        <th>Attribute</th>
         <th>Description</th>
         <th>Default</th>
     </tr>
@@ -117,6 +137,10 @@ Parameters:
 Methods:
 
 <table>
+    <tr>
+        <th>Method</th>
+        <th>Description</th>
+    </tr>
     <tr>
         <td style="white-space: nowrap;">findByAlias()</td>
         <td>Finds model by alias attribute.</td>
@@ -170,6 +194,10 @@ Parameters:
 Methods:
 
 <table>
+    <tr>
+        <th>Method</th>
+        <th>Description</th>
+    </tr>
     <tr>
         <td style="white-space: nowrap;">findByPath($path)</td>
         <td>Finds model by path.</td>
