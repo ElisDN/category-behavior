@@ -118,6 +118,10 @@ Methods:
 
 <table>
     <tr>
+        <td>findByAlias()</td>
+        <td>Finds model by alias attribute.</td>
+    </tr>
+    <tr>
         <td>getArray()</td>
         <td>Return primary keys of all items.</td>
     </tr>
@@ -132,10 +136,6 @@ Methods:
     <tr>
         <td>getMenuArray()</td>
         <td>Returns items for zii.widgets.CMenu widget.</td>
-    </tr>
-    <tr>
-        <td>findByAlias()</td>
-        <td>Finds model by alias attribute.</td>
     </tr>
     <tr>
         <td>getLinkActive()</td>
@@ -171,32 +171,32 @@ Methods:
 
 <table>
     <tr>
-        <td>getChildsArray($parent=0)</td>
-        <td>Returns array of primary keys of children items.</td>
-    </tr>
-    <tr>
-        <td>getAssocList($parent=0)</td>
-        <td>Returns associated array ($id=>$fullTitle, $id=>$fullTitle, ...).</td>
-    </tr>
-    <tr>
-        <td>getAliasList($parent=0)</td>
-        <td>Returns associated array ($alias=>$fullTitle, $alias=>$fullTitle, ...).</td>
-    </tr>
-    <tr>
-        <td>getTabList($parent=0)</td>
-        <td>Returns tabulated array ($id=>$title, $id=>$title, ...).</td>
-    </tr>
-    <tr>
-        <td>getMenuArray($parent=0, $sub=0)</td>
-        <td>Returns items for zii.widgets.CMenu widget.</td>
-    </tr>
-    <tr>
         <td>findByPath($path)</td>
         <td>Finds model by path.</td>
     </tr>
     <tr>
-        <td>isChildOf($parent)</td>
+        <td>isChildOf($parent)<sup>*</sup></td>
         <td>Checks for current model is child of parent.</td>
+    </tr>
+    <tr>
+        <td>getChildsArray($parent=0)<sup>*</sup></td>
+        <td>Returns array of primary keys of children items.</td>
+    </tr>
+    <tr>
+        <td>getAssocList($parent=0)<sup>*</sup></td>
+        <td>Returns associated array ($id=>$fullTitle, $id=>$fullTitle, ...).</td>
+    </tr>
+    <tr>
+        <td>getAliasList($parent=0)<sup>*</sup></td>
+        <td>Returns associated array ($alias=>$fullTitle, $alias=>$fullTitle, ...).</td>
+    </tr>
+    <tr>
+        <td>getTabList($parent=0)<sup>*</sup></td>
+        <td>Returns tabulated array ($id=>$title, $id=>$title, ...).</td>
+    </tr>
+    <tr>
+        <td>getMenuArray($parent=0, $sub=0)<sup>*</sup></td>
+        <td>Returns items for zii.widgets.CMenu widget.</td>
     </tr>
     <tr>
         <td>getPath($separator='/')</td>
@@ -211,6 +211,13 @@ Methods:
         <td>Constructs full title for current model.</td>
     </tr>
 </table>
+
+<sup>*</sup> Argument `$parent` may contains number, model object or array of numbers. You may use:
+
+- `Model::model()->getChildsArray()`;
+- `Model::model()->getChildsArray(5)`;
+- `Model::model()->getChildsArray(array(1, 3, 5))`;
+- `Model::model()->getChildsArray($model)` or `$model->getChildsArray()`;
 
 Using for `dropDownList()`:
 
