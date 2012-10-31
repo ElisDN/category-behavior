@@ -402,9 +402,11 @@ abstract class Category extends CActiveRecord
     } 
     
     public function rules(){
-        return array('title, alias', 'required');
-        return array('title, alias', 'length', 'max'=>255);
-        return array('parent_id', 'numerical', 'integerOnly'=>true);
+        return array(
+            array('title, alias', 'required'),
+            array('title, alias', 'length', 'max'=>255),
+            array('parent_id', 'numerical', 'integerOnly'=>true),
+        );
     }
     
     public function attributeLabels(){
