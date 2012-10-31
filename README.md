@@ -250,7 +250,7 @@ Additional parameters:
     </tr>
     <tr>
         <td style="white-space: nowrap;">parentRelation</td>
-        <td>Parent BELONGS_TO relation.</td>
+        <td>Parent relation.</td>
         <td>parent</td>
     </tr>
 </table>
@@ -309,7 +309,7 @@ Additional and overrided methods:
 - `Model::model()->getChildsArray()`;
 - `Model::model()->getChildsArray(5)`;
 - `Model::model()->getChildsArray(array(1, 3, 5))`;
-- `Model::model()->getChildsArray($model)` or `$model->getChildsArray()`;
+- `Model::model()->getChildsArray($model)` or `$model->getChildsArray()`.
 
 Using for `dropDownList()` method:
 
@@ -320,7 +320,10 @@ Using for `dropDownList()` method:
     <?php echo $form->dropDownList(
         $model,
         'category_id',
-        array_merge(array(''=>'[None]'), Category::model()->published()->getTabList())
+        array_merge(
+            array(''=>'[None]'), 
+            BlogCategory::model()->published()->getTabList()
+        )
     ); ?><br />
     <?php echo $form->error($model, 'category_id'); ?>
 </div>
@@ -332,7 +335,7 @@ Using for CMenu widget (with caching):
 [php]
 <h2>All categories:</h2>
 <?php $this->widget('zii.widgets.CMenu', array(
-    'items'=>Category::model()->cache(3600)->getMenuArray(10))
+    'items'=>BlogCategory::model()->cache(3600)->getMenuArray(10))
 ); ?>
 
 <h2>Subcategories of <?php echo $category->title; ?>:</h2>
