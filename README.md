@@ -398,7 +398,7 @@ abstract class Category extends CActiveRecord
                 'parentAttribute'=>'parent_id',
                 'parentRelation'=>'parent',
                 'defaultCriteria'=>array(
-                    'order'=>'t.position ASC, t.title ASC'
+                    'order'=>'t.title ASC'
                 ),
             ),
         );
