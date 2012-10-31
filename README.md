@@ -377,16 +377,74 @@ Category model:
 
 ~~~
 [php]
+abstract class Category extends CActiveRecord
+{    
+    protected $urlPrefix = '';
+    
+    // ...
+    
+    public function behaviors()
+    {
+        return array(
+            'CategoryTreeBehavior'=>array(
+                'class'=>'DCategoryTreeBehavior',
+                'titleAttribute'=>'title',
+                'aliasAttribute'=>'alias',
+                'urlAttribute'=>'url',
+                'requestPathAttribute'=>'path',
+                'parentAttribute'=>'parent_id',
+                'parentRelation'=>'parent',
+                'defaultCriteria'=>array(
+                    'order'=>'t.position ASC, t.title ASC'
+                ),
+            ),
+        );
+    } 
+    
+    public function rules(){
+        return array('title, alias', 'required');
+        return array('title, alias', 'length', 'max'=>255);
+        return array('parent_id', 'numerical', 'integerOnly'=>true);
+    }
+    
+    public function attributeLabels(){
+        // ...
+    }  
+    
+    private $_url;
+
+    // Generates URL. Use simple `$model->url` instead of `Yii::app()->createUrl(...)`;
+    public function getUrl()
+    {
+        if ($this->_url === null)
+            $this->_url = Yii::app()->request->baseUrl . '/' . $this->urlPrefix . $this->cache(3600)->getPath() . Yii::app()->urlManager->urlSuffix;
+        return $this->_url;
+    }   
+    
+    // ...
+}
+~~~
+
+~~~
+[php]
 class ShopCategory extends Category
 {
     protected $urlPrefix = 'shop/';
     
-    // ...
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+	}  
+    
+    public function tableName()
+    {
+		return '{{blog_category}}';
+	} 
     
     public function relations()
 	{
 		return array_merge(parent::relations(), array(
-            'parent' => array(self::BELONGS_TO, 'BlogCategory', 'parent_id'),
+            'parent' => array(self::BELONGS_TO, 'ShopCategory', 'parent_id'),
 		));
 	}  
 }
