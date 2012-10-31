@@ -188,7 +188,7 @@ Common parameters:
     </tr>
     <tr>
         <td style="white-space: nowrap;">urlAttribute</td>
-        <td>Model property, which contains url. Optionally your model can have `url` attribute or `getUrl()` method, which construct correct url for using our `getMenuArray()`.</td>
+        <td>Model property, which contains url. Optionally your model can have `url` attribute or `getUrl()` method, which construct correct url for using our `getMenuList()`.</td>
         <td>url</td>
     </tr>
     <tr>
@@ -198,7 +198,7 @@ Common parameters:
     </tr>
     <tr>
         <td style="white-space: nowrap;">requestPathAttribute</td>
-        <td>Set this request property if you can use default `getLinkActive()` method from this Behavior for `getMenuArray()`.</td>
+        <td>Set this request property if you can use default `getLinkActive()` method from this Behavior for `getMenuList()`.</td>
         <td>path</td>
     </tr>
     <tr>
@@ -232,12 +232,12 @@ Common methods:
         <td>Returns associated array ($alias=>$title, $alias=>$title, ...).</td>
     </tr>
     <tr>
-        <td style="white-space: nowrap;">getMenuArray()</td>
+        <td style="white-space: nowrap;">getMenuList()</td>
         <td>Returns items for zii.widgets.CMenu widget.</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getLinkActive()</td>
-        <td>Optional redeclare this method in your model for use `getMenuArray()` or define in `requestPathAttribute` your $_GET attribute for url matching. Returns true if current request url matches with category alias.</td>
+        <td>Optional redeclare this method in your model for use `getMenuList()` or define in `requestPathAttribute` your $_GET attribute for url matching. Returns true if current request url matches with category alias.</td>
     </tr>
 </table>
 
@@ -297,7 +297,7 @@ Additional and overrided methods:
         <td>Returns tabulated array ($id=>$title, $id=>$title, ...).</td>
     </tr>
     <tr>
-        <td style="white-space: nowrap;">getMenuArray($sub=0, $parent=0)<sup>*</sup></td>
+        <td style="white-space: nowrap;">getMenuList($sub=0, $parent=0)<sup>*</sup></td>
         <td>Returns items for zii.widgets.CMenu widget.</td>
     </tr>
     <tr>
@@ -345,12 +345,12 @@ Using for CMenu widget (with caching):
 [php]
 <h2>All categories:</h2>
 <?php $this->widget('zii.widgets.CMenu', array(
-    'items'=>BlogCategory::model()->cache(3600)->getMenuArray(10))
+    'items'=>BlogCategory::model()->cache(3600)->getMenuList(10))
 ); ?>
 
 <h2>Subcategories of <?php echo $category->title; ?>:</h2>
 <?php $this->widget('zii.widgets.CMenu', array(
-    'items'=>$category->cache(3600)->getMenuArray())
+    'items'=>$category->cache(3600)->getMenuList())
 ); ?>
 ~~~
 
@@ -578,7 +578,7 @@ $this->breadcrumbs array('Catalog');
 <h1>Catalog</h1>
 
 <p>Categories:</p>
-<?php $this->widget('zii.widgets.CMenu', array('items' => ShopCategory::model()->getMenuArray()));?>
+<?php $this->widget('zii.widgets.CMenu', array('items' => ShopCategory::model()->getMenuList()));?>
 
 <?php echo $this->renderPartial('_loop', array('dataProvider'=>$dataProvider)); ?>
 ~~~
@@ -600,7 +600,7 @@ $this->breadcrumbs = array_merge(
 <h1><?php echo CHtml::encode($category->title); ?></h1>
 
 <p>Subcategories:</p>
-<?php $this->widget('zii.widgets.CMenu', array('items' => $category->getMenuArray()));?>
+<?php $this->widget('zii.widgets.CMenu', array('items' => $category->getMenuList()));?>
 
 <?php echo $this->renderPartial('_loop', array('dataProvider'=>$dataProvider)); ?>
 ~~~
