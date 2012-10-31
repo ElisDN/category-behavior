@@ -28,11 +28,22 @@ class Tag extends CActiveRecord
                 ),
             ),
         );
-    }
+    }    
+        
+    private $_url;
+
+    // Generates URL. Use simple `$model->url` instead of `Yii::app()->createUrl(...)`;
+    public function getUrl()
+    {
+        if ($this->_url === null)
+            $this->_url = Yii::app()->createUtl('blog/tag', array('tag'=>$this->title);
+        return $this->_url;
+    } 
     
     // ...
 }
 
+// Static pages
 class Page extends CActiveRecord
 {
     // ...
@@ -53,11 +64,25 @@ class Page extends CActiveRecord
         );
     }
     
+    private $_url;
+
+    // Generates URL for every page. Use simple `$model->url` instead of `Yii::app()->createUrl(...)`;
+    public function getUrl()
+    {
+        if ($this->_url === null)
+            $this->_url = Yii::app()->request->baseUrl . '/page/' . $this->cache(3600)->getPath() . Yii::app()->urlManager->urlSuffix;
+        return $this->_url;
+    }  
+    
     // ...
 }
 
-class Category extends CActiveRecord
-{
+// Base class for all category models.
+abstract class Category extends CActiveRecord
+{    
+    // Override in subclasses
+    protected $urlPrefix = '';
+    
     // ...
     
     public function behaviors()
@@ -76,14 +101,53 @@ class Category extends CActiveRecord
                 ),
             ),
         );
+    } 
+    
+    public function rules(){
+        // ...
     }
     
+    public function attributeLabels(){
+        // ...
+    }  
+    
+    private $_url;
+
+    // Generates URL. Use simple `$model->url` instead of `Yii::app()->createUrl(...)`;
     public function getUrl()
     {
-        // ...
-    }    
+        if ($this->_url === null)
+            $this->_url = Yii::app()->request->baseUrl . '/' . $this->urlPrefix . $this->cache(3600)->getPath() . Yii::app()->urlManager->urlSuffix;
+        return $this->_url;
+    }   
     
     // ...
+}
+
+/* 
+ * Existing of redeclared custom field `urlPrefix` in all subclasses allows simple 
+ * generate URL in base class without overriding of `getUrl()` method in childs
+ */
+class BlogCategory extends Category
+{
+    protected $urlPrefix = 'blog/';
+
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+	} 
+    
+    public function tableName()
+    {
+		return '{{blog_category}}';
+	}
+
+    public function relations()
+	{
+		return array_merge(parent::relations(), array(
+            'parent' => array(self::BELONGS_TO, 'BlogCategory', 'parent_id'),
+		));
+	}  
 }
 ~~~
 
@@ -142,7 +206,7 @@ Methods:
         <th>Description</th>
     </tr>
     <tr>
-        <td style="white-space: nowrap;">findByAlias()</td>
+        <td style="white-space: nowrap;">findByAlias($alias)</td>
         <td>Finds model by alias attribute.</td>
     </tr>
     <tr>
@@ -223,7 +287,7 @@ Methods:
         <td>Returns tabulated array ($id=>$title, $id=>$title, ...).</td>
     </tr>
     <tr>
-        <td style="white-space: nowrap;">getMenuArray($parent=0, $sub=0)<sup>*</sup></td>
+        <td style="white-space: nowrap;">getMenuArray($sub=0, $parent=0)<sup>*</sup></td>
         <td>Returns items for zii.widgets.CMenu widget.</td>
     </tr>
     <tr>
@@ -235,7 +299,7 @@ Methods:
         <td>Constructs breadcrumbs for zii.widgets.CBreadcrumbs widget. Use `getBreadcrumbs(true)` if you can have link in last element.</td>
     </tr>
     <tr>
-        <td style="white-space: nowrap;">getFullTitle($separator=' - ')</td>
+        <td style="white-space: nowrap;">getFullTitle($inverse=false, $separator=' - ')</td>
         <td>Constructs full title for current model.</td>
     </tr>
 </table>
@@ -247,7 +311,7 @@ Methods:
 - `Model::model()->getChildsArray(array(1, 3, 5))`;
 - `Model::model()->getChildsArray($model)` or `$model->getChildsArray()`;
 
-Using for `dropDownList()`:
+Using for `dropDownList()` method:
 
 ~~~
 [php]
@@ -256,7 +320,7 @@ Using for `dropDownList()`:
     <?php echo $form->dropDownList(
         $model,
         'category_id',
-        array(''=>'[Select category]') + Category::model()->published()->getTabList()
+        array_merge(array(''=>'[None]'), Category::model()->published()->getTabList())
     ); ?><br />
     <?php echo $form->error($model, 'category_id'); ?>
 </div>
@@ -268,7 +332,7 @@ Using for CMenu widget (with caching):
 [php]
 <h2>All categories:</h2>
 <?php $this->widget('zii.widgets.CMenu', array(
-    'items'=>Category::model()->cache(3600)->getMenuArray(0, 1000))
+    'items'=>Category::model()->cache(3600)->getMenuArray(10))
 ); ?>
 
 <h2>Subcategories of <?php echo $category->title; ?>:</h2>
@@ -276,5 +340,223 @@ Using for CMenu widget (with caching):
     'items'=>$category->cache(3600)->getMenuArray())
 ); ?>
 ~~~
+
+Usage sample for a e-shop
+---
+
+Configuration file config/main.php:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+			'showScriptName'=>false,
+			'rules'=>array(
+                // ...
+                
+                'shop/<action:cart|order>'=>'shop/<action>',
+                
+                // http://site.com/shop/printers/home/laser/15
+                'shop/<path:.+>/<id:\d+>'=>'shop/view',
+                
+                // http://site.com/shop/printers/home/laser
+                'shop/<path:.+>'=>'shop/category',
+                
+                'shop'=>'shop/index',
+                
+                // ...
+            ),
+        ),
+    ),
+)
+~~~
+
+Category model:
+
+~~~
+[php]
+class ShopCategory extends Category
+{
+    protected $urlPrefix = 'shop/';
+    
+    // ...
+    
+    public function relations()
+	{
+		return array_merge(parent::relations(), array(
+            'parent' => array(self::BELONGS_TO, 'BlogCategory', 'parent_id'),
+		));
+	}  
+}
+~~~
+
+Product model:
+
+~~~
+[php]
+class ShopProduct extends CActiveRecord
+{  
+    // ...
+
+	public function relations()
+	{
+		return array(
+            'category' => array(self::BELONGS_TO, 'ShopCategory', 'category_id'),
+		);
+	}
+
+    private $_url;
+
+    public function getUrl(){
+        if ($this->_url === null)
+            $this->_url = Yii::app()->request->baseUrl . '/shop/' . $this->category->path . '/' . $this->id;
+        return $this->_url;
+    }
+}
+~~~
+
+Controller:
+
+~~~
+[php]
+class ShopController extends Controller
+{
+    public function actionIndex()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->order = 't.id DESC';
+        
+        $dataProvider = new CActiveDataProvider(
+            ShopProduct::model()->cache(300),
+            array(
+                'criteria'=>$criteria,
+                'pagination'=>array(
+                    'pageSize'=>20,
+                    'pageVar'=>'page',
+                )
+            )
+        );
+
+        $this->render('index', array(
+            'dataProvider'=>$dataProvider,
+        ));
+    }
+    
+
+    public function actionCategory($path)
+    {
+        $category = ShopCategory::model()->findByPath($path);
+        if (!$category)
+            throw new CHttpException(404, 'Category not found');
+
+        $criteria = new CDbCriteria;
+        $criteria->order = 't.id DESC';
+        
+        $criteria->addInCondition('t.category_id', array_merge(
+            array($category->id), $category->getChildsArray()
+        ));
+        
+        $dataProvider = new CActiveDataProvider(
+            ShopProduct::model()->cache(300),
+            array(
+                'criteria'=>$criteria,
+                'pagination'=>array(
+                    'pageSize'=>20,
+                    'pageVar'=>'page',
+                )
+            )
+        );
+
+        $this->render('category', array(
+            'dataProvider'=>$dataProvider,
+            'category' => $category,
+        ));
+    }
+    
+    public function actionView($id)
+    {
+        $product = ShopProduct::model()->with('category')->findByPk($id);
+
+        // Mirrors protection) 
+        if (Yii::app()->request->requestUri != $product->url) 
+            $this->redirect($product->url);
+        
+        if (!$product) 
+            throw new CHttpException(404, 'Not found');
+
+        $this->render('view', array(
+            'product'=>$product,
+        ));
+    }
+}
+~~~
+
+View shop/index.php:
+
+~~~
+[php]
+<?php
+$this->pageTitle = 'Catalog';
+$this->breadcrumbs array('Catalog');
+?>
+
+<h1>Catalog</h1>
+
+<p>Categories:</p>
+<?php $this->widget('zii.widgets.CMenu', array('items' => ShopCategory::model()->getMenuArray()));?>
+
+<?php echo $this->renderPartial('_loop', array('dataProvider'=>$dataProvider)); ?>
+~~~
+
+View shop/category.php:
+
+~~~
+[php]
+<?php
+$this->pageTitle = 'Catalog - ' . $category->getFullTitle();
+$this->breadcrumbs = array_merge(
+    array(
+        'Catalog'=>$this->createUrl('shop/index'),
+    ), 
+    $category->getBreadcrumbs()
+);
+?>
+
+<h1><?php echo CHtml::encode($category->title); ?></h1>
+
+<p>Subcategories:</p>
+<?php $this->widget('zii.widgets.CMenu', array('items' => $category->getMenuArray()));?>
+
+<?php echo $this->renderPartial('_loop', array('dataProvider'=>$dataProvider)); ?>
+~~~
+
+View shop/view.php:
+
+~~~
+[php]
+<?php
+$this->pageTitle = $product->title;
+$this->breadcrumbs=array(
+    'Catalog'=>$this->createUrl('shop/index'),
+);
+
+if ($product->category)
+    $this->breadcrumbs = array_merge($this->breadcrumbs, $product->category->getBreadcrumbs(true));
+
+$this->breadcrumbs[]= $product->title;
+?>
+
+<h1><?php echo CHtml::encode($product->title); ?></h1>
+
+<?php if ($product->category): ?>
+    <p>Category: <?php echo CHtml::link($product->category->title, $product->category->url); ?></p>
+<?php endif; ?>
+
+<p>Price: <?php echo $product->price; ?></p>
+~~~
+
+
 
 
