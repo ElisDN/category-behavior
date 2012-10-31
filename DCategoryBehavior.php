@@ -28,7 +28,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
     /**
      * @var string model property, which contains url.
      * Optionally your model can have 'url' attribute or getUrl() method,
-     * which construct correct url for using our getMenuArray().
+     * which construct correct url for using our getMenuList().
      */
     public $urlAttribute = 'url';
     /**
@@ -111,7 +111,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
      * Returns items for zii.widgets.CMenu widget
      * @return array
      */
-    public function getMenuArray()
+    public function getMenuList()
     {
         $criteria = $this->getOwnerCriteria();
 
@@ -147,7 +147,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Optional redeclare this method in your model for use (@link getMenuArray())
+     * Optional redeclare this method in your model for use (@link getMenuList())
      * or define in (@link requestPathAttribute) your $_GET attribute for url matching
      * @return bool true if current request url matches with category alias
      */
@@ -157,7 +157,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * Redeclare this method in your model for use of (@link getMenuArray()) method
+     * Redeclare this method in your model for use of (@link getMenuList()) method
      * @return string
      */
     public function getLUrl()

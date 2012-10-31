@@ -176,7 +176,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
      * @param int $sub levels
      * @return array
      */
-    public function getMenuArray($sub=0, $parent=0)
+    public function getMenuList($sub=0, $parent=0)
     {
         $criteria = $this->getOwnerCriteria();
 
@@ -193,10 +193,10 @@ class DCategoryTreeBehavior extends DCategoryBehavior
             $categories[$item->{$this->parentAttribute}][] = $item;
         }
 
-        return $this->_getMenuArrayRecursive ($categories, $parent, $sub);
+        return $this->_getMenuListRecursive ($categories, $parent, $sub);
     }
 
-    protected function _getMenuArrayRecursive($items, $parent, $sub)
+    protected function _getMenuListRecursive($items, $parent, $sub)
     {
         $parent = (int)$parent;
         $resultArray = array();
@@ -208,7 +208,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
                     'url'=>$item->{$this->urlAttribute},
                     'itemOptions'=>array('class'=>'item_' . $item->getPrimaryKey()),
                     'active'=>$item->{$this->linkActiveAttribute},
-                ) + ($sub ? array('items'=>$this->_getMenuArrayRecursive($items, $item->getPrimaryKey(), $sub - 1)) : array());
+                ) + ($sub ? array('items'=>$this->_getMenuListRecursive($items, $item->getPrimaryKey(), $sub - 1)) : array());
             }
         }
         return $resultArray;
@@ -262,7 +262,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
     public function isChildOf($parent)
     {
         if (is_int($parent) && $this->getOwner()->getPrimaryKey() == $parent)
-            return true;
+            return false;
 
         $parents = $this->arrayFromArgs($parent);
 
@@ -340,7 +340,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
     }
 
     /**
-     * Optional redeclare this method in your model for use (@link getMenuArray())
+     * Optional redeclare this method in your model for use (@link getMenuList())
      * or define in (@link requestPathAttribute) your $_GET attribute for url matching
      * @return bool true if current request url matches with category path
      */
