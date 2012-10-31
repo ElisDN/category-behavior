@@ -158,7 +158,7 @@ Specification
 
 ***DCategoryBehavior***
 
-Parameters:
+Common parameters:
 
 <table>
     <tr>
@@ -178,7 +178,7 @@ Parameters:
     </tr>
     <tr>
         <td style="white-space: nowrap;">urlAttribute</td>
-        <td>Model property, which contains url. Optionally your model can have 'url' attribute or `getUrl()` method, which construct correct url for using our `getMenuArray()`.</td>
+        <td>Model property, which contains url. Optionally your model can have `url` attribute or `getUrl()` method, which construct correct url for using our `getMenuArray()`.</td>
         <td>url</td>
     </tr>
     <tr>
@@ -198,7 +198,7 @@ Parameters:
     </tr>
 </table>
 
-Methods:
+Common methods:
 
 <table>
     <tr>
@@ -235,7 +235,7 @@ Methods:
 
 Content DCategoryBehavior specification and addons:
 
-Parameters:
+Additional parameters:
 
 <table>
     <tr>
@@ -255,7 +255,7 @@ Parameters:
     </tr>
 </table>
 
-Methods:
+Additional and overrided methods:
 
 <table>
     <tr>
@@ -341,7 +341,7 @@ Using for CMenu widget (with caching):
 ); ?>
 ~~~
 
-Usage sample for a e-shop
+Usage sample in E-shop
 ---
 
 Configuration file config/main.php:
