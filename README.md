@@ -2,6 +2,11 @@
 ==========================
 Contains popular methods for work with plain and hierarchical categories in Yii
 
+Readme
+------------
+
+[README RUS](http://www.elisdn.ru/blog/16/dcategorybehavior-rabota-s-kategoriiami-i-spiskami-v-yii)
+
 Installation
 ------------
 
