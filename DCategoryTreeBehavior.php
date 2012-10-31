@@ -176,9 +176,15 @@ class DCategoryTreeBehavior extends DCategoryBehavior
      * @param int $sub levels
      * @return array
      */
-    public function getMenuArray($parent=0, $sub=0)
+    public function getMenuArray($sub=0, $parent=0)
     {
         $criteria = $this->getOwnerCriteria();
+
+        if (!$parent)
+            $parent = $this->getOwner()->getPrimaryKey();
+
+        if ($parent)
+            $criteria->compare($this->primaryKeyAttribute, $this->getChildsArray($parent));
 
         $items = $this->cached($this->getOwner())->findAll($criteria);
 
@@ -320,7 +326,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
      * @param string $separator
      * @return string
      */
-    public function getFullTitle($separator=' - ')
+    public function getFullTitle($inverse=false, $separator=' - ')
     {
         $titles = array($this->getOwner()->{$this->titleAttribute});
 
@@ -330,7 +336,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
             $titles[] = $item->{$this->parentRelation}->{$this->titleAttribute};
             $item = $item->{$this->parentRelation};
         }
-        return implode(array_reverse($titles), $separator);
+        return implode($inverse ? $titles : array_reverse($titles), $separator);
     }
 
     /**
@@ -346,7 +352,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
     protected function getFullAssocData($attributes, $parent=0)
     {
         $criteria = $this->getOwnerCriteria();
-        $criteria->select = implode(', ', array_unique($attributes + array($this->primaryKeyAttribute)));
+        $criteria->select = implode(', ', array_unique(array_merge($attributes, array($this->primaryKeyAttribute))));
 
         if ($parent)
             $criteria->compare($this->primaryKeyAttribute, $this->getChildsArray($parent));
