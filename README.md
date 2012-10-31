@@ -81,7 +81,12 @@ class Page extends CActiveRecord
     
     // ...
 }
+~~~
 
+I recommend to create base class Category and extend it in all subclasses
+
+~~~
+[php]
 // Base class for all category models.
 abstract class Category extends CActiveRecord
 {    
@@ -156,7 +161,7 @@ class BlogCategory extends Category
 }
 ~~~
 
-Use any from public behavior methods.
+After attaching of this Behavior to your model you can use this public methods:
 
 Specification
 -------------
@@ -236,7 +241,7 @@ Common methods:
     </tr>
 </table>
 
-***DCategoryTreeBehavior***
+***DCategoryTreeBehavior (extends DCategoryBehavior)***
 
 Content DCategoryBehavior specification and addons:
 
