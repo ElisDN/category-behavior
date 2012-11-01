@@ -48,6 +48,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
     protected $_primaryKey;
     protected $_tableSchema;
     protected $_tableName;
+    protected $_criteria;
 
     /**
      * Return primary keys of all items
@@ -216,6 +217,12 @@ class DCategoryBehavior extends CActiveRecordBehavior
     {
         $criteria = $this->getOwner()->getDbCriteria();
         $criteria->mergeWith($this->defaultCriteria);
+        $this->_criteria = clone $criteria;
         return $criteria;
+    }
+
+    protected function getOriginalCriteria()
+    {
+        return clone $this->_criteria;
     }
 }

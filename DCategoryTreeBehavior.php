@@ -224,9 +224,10 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         $domens = explode('/', trim($path, '/'));
         $model = null;
 
+        $criteria = $this->getOwnerCriteria();
+
         if (count($domens)==1) {
 
-            $criteria = $this->getOwnerCriteria();
             $criteria->mergeWith(array(
                 'condition'=>$this->aliasAttribute . '=:alias AND ' . $this->parentAttribute . '=0',
                 'params'=>array(':alias'=>$domens[0])
@@ -235,7 +236,6 @@ class DCategoryTreeBehavior extends DCategoryBehavior
 
         } else {
 
-            $criteria = $this->getOwnerCriteria();
             $criteria->mergeWith(array(
                 'condition'=>$this->aliasAttribute . '=:alias',
                 'params'=>array(':alias'=>$domens[0])
@@ -245,7 +245,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
             if ($parent){
                 $domens = array_slice($domens, 1);
                 foreach ($domens as $alias){
-                    $model = $parent->getChildByAlias($alias);
+                    $model = $parent->getChildByAlias($alias, $this->getOriginalCriteria());
                     if (!$model) return null;
                     $parent = $model;
                 }
@@ -391,14 +391,19 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         return array_unique($array);
     }
 
-    protected function getChildByAlias($alias)
+    protected function getChildByAlias($alias, $criteria=null)
     {
-        return $this->cached($this->getOwner())->find(array(
+        if ($criteria === null)
+            $criteria = $this->getOwnerCriteria();
+
+        $criteria->mergeWith(array(
             'condition'=>$this->aliasAttribute . '=:alias AND ' . $this->parentAttribute . '=:parent_id',
             'params'=>array(
                 ':alias'=>$alias,
                 ':parent_id'=>$this->getOwner()->getPrimaryKey()
             )
         ));
+
+        return $this->cached($this->getOwner())->find($criteria);
     }
 }
