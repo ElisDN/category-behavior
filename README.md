@@ -386,7 +386,7 @@ return array(
 )
 ~~~
 
-Category model:
+Base category model:
 
 ~~~
 [php]
@@ -439,6 +439,8 @@ abstract class Category extends CActiveRecord
     // ...
 }
 ~~~
+
+ShopCategory model:
 
 ~~~
 [php]
