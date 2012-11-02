@@ -237,7 +237,7 @@ Common methods:
     </tr>
     <tr>
         <td style="white-space: nowrap;">getLinkActive()</td>
-        <td>Optional redeclare this method in your model for use `getMenuList()` or define in `requestPathAttribute` your $_GET attribute for url matching. Returns true if current request url matches with category alias.</td>
+        <td>Redeclare this method in your model for use `getMenuList()` or define in `requestPathAttribute` your $_GET attribute for url matching. Returns true if current request url matches with category alias.</td>
     </tr>
 </table>
 
