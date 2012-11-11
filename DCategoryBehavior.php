@@ -215,7 +215,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
 
     protected function getOwnerCriteria()
     {
-        $criteria = $this->getOwner()->getDbCriteria();
+        $criteria = clone $this->getOwner()->getDbCriteria();
         $criteria->mergeWith($this->defaultCriteria);
         $this->_criteria = clone $criteria;
         return $criteria;
