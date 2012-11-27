@@ -6,14 +6,13 @@
  * @property string $urlAttribute
  * @property string $titleAttribute
  * @property string $aliasAttribute
- * @property string $parentAttribute
  * @property string $linkActiveAttribute
  * @property string $requestPathAttribute
  *  
  * @property integer[] $array
  * @property mixed $assocList
  * @property mixed $aliasList
- * @property mixed $menuArray
+ * @property mixed $menuList
  */
 class DCategoryBehavior extends CActiveRecordBehavior
 {
@@ -97,7 +96,6 @@ class DCategoryBehavior extends CActiveRecordBehavior
         $items = $this->getFullAssocData(array(
             $this->aliasAttribute,
             $this->titleAttribute,
-            $this->parentAttribute,
         ));
 
         $result = array();
