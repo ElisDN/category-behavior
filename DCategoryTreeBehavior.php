@@ -206,6 +206,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
                     'id'=>$item->getPrimaryKey(),
                     'label'=>$item->{$this->titleAttribute},
                     'url'=>$item->{$this->urlAttribute},
+                    'icon'=>$this->iconAttribute !== null ? $item->{$this->iconAttribute} : '',
                     'itemOptions'=>array('class'=>'item_' . $item->getPrimaryKey()),
                     'active'=>$item->{$this->linkActiveAttribute},
                 ) + ($sub ? array('items'=>$this->_getMenuListRecursive($items, $item->getPrimaryKey(), $sub - 1)) : array());

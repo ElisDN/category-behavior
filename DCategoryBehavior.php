@@ -31,6 +31,12 @@ class DCategoryBehavior extends CActiveRecordBehavior
      */
     public $urlAttribute = 'url';
     /**
+     * @var string model property, which contains icon.
+     * Optionally for 'image' value your model can have 'image' attribute or getImage() method,
+     * which construct correct url for using our getMenuList().
+     */
+    public $iconAttribute;
+    /**
      * @var string model property, which return true for active menu item.
      * Optionally declare own getLinkActive() method in your model.
      */
@@ -123,6 +129,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
                 'id'=>$item->getPrimaryKey(),
                 'label'=>$item->{$this->titleAttribute},
                 'url'=>$item->{$this->urlAttribute},
+                'icon'=>$this->iconAttribute !== null ? $item->{$this->iconAttribute} : '',
                 'itemOptions'=>array('class'=>'item_' . $item->getPrimaryKey()),
                 'active'=>$item->{$this->linkActiveAttribute},
             );
