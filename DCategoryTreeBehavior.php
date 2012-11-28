@@ -355,6 +355,9 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         $criteria = $this->getOwnerCriteria();
         $criteria->select = implode(', ', array_unique(array_merge($attributes, array($this->primaryKeyAttribute))));
 
+        if (!$parent)
+            $parent = $this->getOwner()->getPrimaryKey();
+
         if ($parent)
             $criteria->compare($this->primaryKeyAttribute, $this->getChildsArray($parent));
 
