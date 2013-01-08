@@ -37,12 +37,14 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         $criteria->select = $this->primaryKeyAttribute . ', ' . $this->titleAttribute . ', ' . $this->parentAttribute;
         $command = $this->createFindCommand($criteria);
         $items = $command->queryAll();
+        $this->clearOwnerCriteria();
 
         $result = array();
 
         foreach ($parents as $parent_id){
             $this->_childsArrayRecursive($items, $result, $parent_id);
         }
+
 
         return array_unique($result);
     }
@@ -362,6 +364,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
             $criteria->compare($this->primaryKeyAttribute, $this->getChildsArray($parent));
 
         $command = $this->createFindCommand($criteria);
+        $this->clearOwnerCriteria();
 
         return $command->queryAll();
     }

@@ -66,7 +66,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
 
         $command = $this->createFindCommand($criteria);
         $result = $command->queryColumn();
-
+        $this->clearOwnerCriteria();
         return $result;
     }
 
@@ -177,7 +177,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
         $criteria->select = implode(', ', array_unique($attributes + array($this->primaryKeyAttribute)));
 
         $command = $this->createFindCommand($criteria);
-
+        $this->clearOwnerCriteria();
         return $command->queryAll();
     }
 
@@ -224,6 +224,11 @@ class DCategoryBehavior extends CActiveRecordBehavior
         $criteria->mergeWith($this->defaultCriteria);
         $this->_criteria = clone $criteria;
         return $criteria;
+    }
+
+    protected function clearOwnerCriteria()
+    {
+        $this->getOwner()->setDbCriteria(new CDbCriteria());
     }
 
     protected function getOriginalCriteria()
