@@ -158,16 +158,15 @@ class DCategoryTreeBehavior extends DCategoryBehavior
             $this->_tabListRecursive($items, $result, $parent_id);
         }
 
-        return array_unique($result);
+        return $result;
     }
 
     protected function _tabListRecursive(&$items, &$result, $parent_id, $indent=0)
     {
         foreach ($items as $item){
-            if ($item[$this->parentAttribute] == $parent_id){
+            if ($item[$this->parentAttribute] == $parent_id && !isset($result[$item[$this->primaryKeyAttribute]])){
                 $result[$item[$this->primaryKeyAttribute]] = str_repeat('-- ', $indent) . $item[$this->titleAttribute];
                 $this->_tabListRecursive($items, $result, $item[$this->primaryKeyAttribute], $indent + 1);
-
             }
         }
     }
