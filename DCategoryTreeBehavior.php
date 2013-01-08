@@ -354,7 +354,10 @@ class DCategoryTreeBehavior extends DCategoryBehavior
     protected function getFullAssocData($attributes, $parent=0)
     {
         $criteria = $this->getOwnerCriteria();
-        $criteria->select = implode(', ', array_unique(array_merge($attributes, array($this->primaryKeyAttribute))));
+
+        $attributes = $this->aliasAttributes(array_unique(array_merge($attributes, array($this->primaryKeyAttribute))));
+
+        $criteria->select = implode(', ', $attributes);
 
         if (!$parent)
             $parent = $this->getOwner()->getPrimaryKey();

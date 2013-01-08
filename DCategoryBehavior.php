@@ -174,7 +174,9 @@ class DCategoryBehavior extends CActiveRecordBehavior
     protected function getFullAssocData($attributes)
     {
         $criteria = $this->getOwnerCriteria();
-        $criteria->select = implode(', ', array_unique($attributes + array($this->primaryKeyAttribute)));
+
+        $attributes = $this->aliasAttributes(array_unique(array_merge($attributes, array($this->primaryKeyAttribute))));
+        $criteria->select = implode(', ', $attributes);
 
         $command = $this->createFindCommand($criteria);
         $this->clearOwnerCriteria();
@@ -195,6 +197,15 @@ class DCategoryBehavior extends CActiveRecordBehavior
 
         $connection = $model->getDbConnection();
         return $model->cache($connection->queryCachingDuration);
+    }
+
+    protected function aliasAttributes($attributes)
+    {
+        $aliasesAttributes = array();
+        foreach ($attributes as $attribute) {
+            $aliasesAttributes[] = 't.' . $attribute;
+        }
+        return $aliasesAttributes;
     }
 
     protected function getPrimaryKeyAttribute()
