@@ -34,7 +34,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         $this->cached();
 
         $criteria = $this->getOwnerCriteria();
-        $criteria->select = $this->primaryKeyAttribute . ', ' . $this->titleAttribute . ', ' . $this->parentAttribute;
+        $criteria->select = 't.'. $this->primaryKeyAttribute . ', t.' . $this->titleAttribute . ', t.' . $this->parentAttribute;
         $command = $this->createFindCommand($criteria);
         $items = $command->queryAll();
         $this->clearOwnerCriteria();
@@ -231,7 +231,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         if (count($domens)==1) {
 
             $criteria->mergeWith(array(
-                'condition'=>$this->aliasAttribute . '=:alias AND ' . $this->parentAttribute . '=0',
+                'condition'=>'t.' . $this->aliasAttribute . '=:alias AND t.' . $this->parentAttribute . '=0',
                 'params'=>array(':alias'=>$domens[0])
             ));
             $model = $this->cached($this->getOwner())->find($criteria);
@@ -239,7 +239,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         } else {
 
             $criteria->mergeWith(array(
-                'condition'=>$this->aliasAttribute . '=:alias',
+                'condition'=>'t.' .$this->aliasAttribute . '=:alias',
                 'params'=>array(':alias'=>$domens[0])
             ));
             $parent = $this->cached($this->getOwner())->find($criteria);
@@ -406,7 +406,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
             $criteria = $this->getOwnerCriteria();
 
         $criteria->mergeWith(array(
-            'condition'=>$this->aliasAttribute . '=:alias AND ' . $this->parentAttribute . '=:parent_id',
+            'condition'=>'t.' . $this->aliasAttribute . '=:alias AND t.' . $this->parentAttribute . '=:parent_id',
             'params'=>array(
                 ':alias'=>$alias,
                 ':parent_id'=>$this->getOwner()->getPrimaryKey()

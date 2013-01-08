@@ -146,7 +146,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
     public function findByAlias($alias)
     {
         $model = $this->cached($this->getOwner())->find(array(
-            'condition'=>$this->aliasAttribute . '=:alias',
+            'condition'=>'t.' . $this->aliasAttribute . '=:alias',
             'params'=>array(':alias'=>$alias),
         ));
         return $model;
