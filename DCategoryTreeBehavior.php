@@ -173,6 +173,44 @@ class DCategoryTreeBehavior extends DCategoryBehavior
     }
 
     /**
+     * Returns tabulated array ($url=>$title, $url=>$title, ...)
+     * @param mixed $parent number, object or array of numbers
+     * @param int $sub levels
+     * @return array
+     */
+    public function getUrlList($parent=0)
+    {
+        $criteria = $this->getOwnerCriteria();
+
+        if (!$parent)
+            $parent = $this->getOwner()->getPrimaryKey();
+
+        if ($parent)
+            $criteria->compare($this->primaryKeyAttribute, $this->getChildsArray($parent));
+
+        $items = $this->cached($this->getOwner())->findAll($criteria);
+
+        $categories = array();
+        foreach ($items as $item){
+            $categories[$item->{$this->parentAttribute}][] = $item;
+        }
+
+        return $this->_getUrlListRecursive ($categories, $parent);
+    }
+
+    protected function _getUrlListRecursive($items, $parent, $indent=0)
+    {
+        $parent = (int)$parent;
+        $resultArray = array();
+        if (isset($items[$parent]) && $items[$parent]){
+            foreach ($items[$parent] as $item){
+                $resultArray = $resultArray + array($item->{$this->urlAttribute}=>str_repeat('-- ', $indent) . $item->{$this->titleAttribute}) + $this->_getUrlListRecursive($items, $item->getPrimaryKey(), $indent + 1);
+            }
+        }
+        return $resultArray;
+    }
+
+    /**
      * Returns items for zii.widgets.CMenu widget
      * @param mixed $parent number, object or array of numbers
      * @param int $sub levels
@@ -204,7 +242,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         $resultArray = array();
         if (isset($items[$parent]) && $items[$parent]){
             foreach ($items[$parent] as $item){
-                $resultArray[] = array(
+                $resultArray[$item->getPrimaryKey()] = array(
                     'id'=>$item->getPrimaryKey(),
                     'label'=>$item->{$this->titleAttribute},
                     'url'=>$item->{$this->urlAttribute},

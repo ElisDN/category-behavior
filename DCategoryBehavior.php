@@ -114,6 +114,25 @@ class DCategoryBehavior extends CActiveRecordBehavior
     }
 
     /**
+     * Returns associated array ($url=>$title, $url=>$title, ...)
+     * @return array
+     */
+    public function getUrlList()
+    {
+        $criteria = $this->getOwnerCriteria();
+
+        $items = $this->cached($this->getOwner())->findAll($criteria);
+
+        $result = array();
+
+        foreach ($items as $item){
+            $result = $result + array($item->{$this->urlAttribute}=>$item->{$this->titleAttribute});
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns items for zii.widgets.CMenu widget
      * @return array
      */
@@ -126,7 +145,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
         $result = array();
 
         foreach ($items as $item){
-            $result[] = array(
+            $result[$item->getPrimaryKey()] = array(
                 'id'=>$item->getPrimaryKey(),
                 'label'=>$item->{$this->titleAttribute},
                 'url'=>$item->{$this->urlAttribute},
