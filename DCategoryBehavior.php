@@ -166,7 +166,7 @@ class DCategoryBehavior extends CActiveRecordBehavior
      * Redeclare this method in your model for use of (@link getMenuList()) method
      * @return string
      */
-    public function getLUrl()
+    public function getUrl()
     {
         return '#';
     }
