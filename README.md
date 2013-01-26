@@ -232,6 +232,10 @@ Common methods:
         <td>Returns associated array ($alias=>$title, $alias=>$title, ...).</td>
     </tr>
     <tr>
+        <td style="white-space: nowrap;">getUrlList()</td>
+        <td>Returns associated array ($url=>$title, $url=>$title, ...).</td>
+    </tr>
+    <tr>
         <td style="white-space: nowrap;">getMenuList()</td>
         <td>Returns items for zii.widgets.CMenu widget.</td>
     </tr>
@@ -295,6 +299,10 @@ Additional and overrided methods:
     <tr>
         <td style="white-space: nowrap;">getTabList($parent=0)<sup>*</sup></td>
         <td>Returns tabulated array ($id=>$title, $id=>$title, ...).</td>
+    </tr>
+    <tr>
+        <td style="white-space: nowrap;">getUrlList($parent=0)<sup>*</sup></td>
+        <td>Returns associated array ($url=>$title, $url=>$title, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getMenuList($sub=0, $parent=0)<sup>*</sup></td>
