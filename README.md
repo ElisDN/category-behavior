@@ -83,16 +83,13 @@ class Page extends CActiveRecord
 }
 ~~~
 
-I recommend to create base class Category and extend it in all subclasses
+I recommend to create a base class Category and extend it in all subclasses
 
 ~~~
 [php]
 // Base class for all category models.
 abstract class Category extends CActiveRecord
-{    
-    // Override in subclasses
-    protected $urlPrefix = '';
-    
+{        
     // ...
     
     public function behaviors()
@@ -111,37 +108,15 @@ abstract class Category extends CActiveRecord
                 ),
             ),
         );
-    } 
-    
-    public function rules(){
-        // ...
-    }
-    
-    public function attributeLabels(){
-        // ...
-    }  
-    
-    private $_url;
-
-    // Generates URL. Use simple `$model->url` instead of `Yii::app()->createUrl(...)`;
-    public function getUrl()
-    {
-        if ($this->_url === null)
-            $this->_url = Yii::app()->request->baseUrl . '/' . $this->urlPrefix . $this->cache(3600)->getPath() . Yii::app()->urlManager->urlSuffix;
-        return $this->_url;
-    }   
-    
-    // ...
+    }     
 }
 
 /* 
- * Existing of redeclared custom field `urlPrefix` in all subclasses allows simple 
- * generate URL in base class without overriding of `getUrl()` method in childs
+ * Existing of redeclared a custom field `urlPrefix` in all subclasses allows simple 
+ * generate URL in a base class without overriding of `getUrl()` method in childs
  */
 class BlogCategory extends Category
 {
-    protected $urlPrefix = 'blog/';
-
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
@@ -157,7 +132,12 @@ class BlogCategory extends Category
 		return array_merge(parent::relations(), array(
             'parent' => array(self::BELONGS_TO, 'BlogCategory', 'parent_id'),
 		));
-	}  
+	} 
+
+    public function getUrl()
+    { 
+        ...
+    }    
 }
 ~~~
 
@@ -178,22 +158,22 @@ Common parameters:
     </tr>
     <tr>
         <td style="white-space: nowrap;">titleAttribute</td>
-        <td>Model attribute, which used for showing title.</td>
+        <td>Model attribute, which used for a title showing.</td>
         <td>title</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">aliasAttribute</td>
-        <td>Model attribute, which defined alias.</td>
+        <td>Model attribute, which defined a alias.</td>
         <td>alias</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">urlAttribute</td>
-        <td>Model property, which contains url. Optionally your model can have `url` attribute or `getUrl()` method, which construct correct url for using our `getMenuList()`.</td>
+        <td>Model property, which contains a url. Optionally your model can have a `url` attribute or a `getUrl()` method, which constructs a correct url for using our `getMenuList()` method.</td>
         <td>url</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">linkActiveAttribute</td>
-        <td>Model property, which return true for active menu item. Optionally declare own public `getLinkActive()` method in your model.</td>
+        <td>Model property, which returns true for active menu item. Optionally declare own public `getLinkActive()` method in your model.</td>
         <td>linkActive</td>
     </tr>
     <tr>
@@ -225,15 +205,15 @@ Common methods:
     </tr>
     <tr>
         <td style="white-space: nowrap;">getAssocList()</td>
-        <td>Returns associated array ($id=>$title, $id=>$title, ...).</td>
+        <td>Returns a associated array ($id=>$title, $id=>$title, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getAliasList()</td>
-        <td>Returns associated array ($alias=>$title, $alias=>$title, ...).</td>
+        <td>Returns a associated array ($alias=>$title, $alias=>$title, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getUrlList()</td>
-        <td>Returns associated array ($url=>$title, $url=>$title, ...).</td>
+        <td>Returns a associated array ($url=>$title, $url=>$title, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getMenuList()</td>
@@ -241,7 +221,7 @@ Common methods:
     </tr>
     <tr>
         <td style="white-space: nowrap;">getLinkActive()</td>
-        <td>Redeclare this method in your model for use `getMenuList()` or define in `requestPathAttribute` your $_GET attribute for url matching. Returns true if current request url matches with category alias.</td>
+        <td>Redeclare this method in your model for use `getMenuList()` or define in `requestPathAttribute` your $_GET attribute for url matching. It returns true if a current request url matches with category alias.</td>
     </tr>
 </table>
 
@@ -278,31 +258,31 @@ Additional and overrided methods:
     </tr>
     <tr>
         <td style="white-space: nowrap;">findByPath($path)</td>
-        <td>Finds model by path.</td>
+        <td>Finds a model by a path.</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">isChildOf($parent)<sup>*</sup></td>
-        <td>Checks for current model is child of parent.</td>
+        <td>Checks for the current model is a child of the parent.</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getChildsArray($parent=0)<sup>*</sup></td>
-        <td>Returns array of primary keys of children items.</td>
+        <td>Returns a array of primary keys of children items.</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getAssocList($parent=0)<sup>*</sup></td>
-        <td>Returns associated array ($id=>$fullTitle, $id=>$fullTitle, ...).</td>
+        <td>Returns a associated array ($id=>$fullTitle, $id=>$fullTitle, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getAliasList($parent=0)<sup>*</sup></td>
-        <td>Returns associated array ($alias=>$fullTitle, $alias=>$fullTitle, ...).</td>
+        <td>Returns a associated array ($alias=>$fullTitle, $alias=>$fullTitle, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getTabList($parent=0)<sup>*</sup></td>
-        <td>Returns tabulated array ($id=>$title, $id=>$title, ...).</td>
+        <td>Returns a tabulated array ($id=>$title, $id=>$title, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getUrlList($parent=0)<sup>*</sup></td>
-        <td>Returns associated array ($url=>$title, $url=>$title, ...).</td>
+        <td>Returns a associated array ($url=>$title, $url=>$title, ...).</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getMenuList($sub=0, $parent=0)<sup>*</sup></td>
@@ -310,26 +290,26 @@ Additional and overrided methods:
     </tr>
     <tr>
         <td style="white-space: nowrap;">getPath($separator='/')</td>
-        <td>Constructs full path for current model.</td>
+        <td>Constructs a full path for your current model.</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getBreadcrumbs($lastLink=false)</td>
-        <td>Constructs breadcrumbs for zii.widgets.CBreadcrumbs widget. Use `getBreadcrumbs(true)` if you can have link in last element.</td>
+        <td>Constructs breadcrumbs for zii.widgets.CBreadcrumbs widget. Use `getBreadcrumbs(true)` if you want have a link in the last element.</td>
     </tr>
     <tr>
         <td style="white-space: nowrap;">getFullTitle($inverse=false, $separator=' - ')</td>
-        <td>Constructs full title for current model.</td>
+        <td>Constructs a full title for your current model.</td>
     </tr>
 </table>
 
-<sup>*</sup> Argument `$parent` may contains number, model object or array of numbers. You may use:
+<sup>*</sup> Argument `$parent` may contain a number, a model object or array of numbers. You may use:
 
 - `Model::model()->getChildsArray()`;
 - `Model::model()->getChildsArray(5)`;
 - `Model::model()->getChildsArray(array(1, 3, 5))`;
 - `Model::model()->getChildsArray($model)` or `$model->getChildsArray()`.
 
-Using for `dropDownList()` method:
+Using for the `dropDownList()` method:
 
 ~~~
 [php]
@@ -639,7 +619,3 @@ $this->breadcrumbs[]= $product->title;
 
 <p>Price: <?php echo $product->price; ?></p>
 ~~~
-
-
-
-
