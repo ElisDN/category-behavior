@@ -269,7 +269,7 @@ class DCategoryTreeBehavior extends DCategoryBehavior
         if (count($domens)==1) {
 
             $criteria->mergeWith(array(
-                'condition'=>'t.' . $this->aliasAttribute . '=:alias AND t.' . $this->parentAttribute . '=0',
+                'condition'=>'t.' . $this->aliasAttribute . '=:alias AND (t.' . $this->parentAttribute . ' iS NULL OR t.' . $this->parentAttribute . '=0)',
                 'params'=>array(':alias'=>$domens[0])
             ));
             $model = $this->cached($this->getOwner())->find($criteria);
