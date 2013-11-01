@@ -145,13 +145,15 @@ class DCategoryBehavior extends CActiveRecordBehavior
         $result = array();
 
         foreach ($items as $item){
+            $active = $item->{$this->linkActiveAttribute};
             $result[$item->getPrimaryKey()] = array(
                 'id'=>$item->getPrimaryKey(),
                 'label'=>$item->{$this->titleAttribute},
                 'url'=>$item->{$this->urlAttribute},
                 'icon'=>$this->iconAttribute !== null ? $item->{$this->iconAttribute} : '',
+                'active'=>$active,
                 'itemOptions'=>array('class'=>'item_' . $item->getPrimaryKey()),
-                'active'=>$item->{$this->linkActiveAttribute},
+                'linkOptions'=>$active ? array('rel'=>'nofollow') : array(),
             );
         }
 
